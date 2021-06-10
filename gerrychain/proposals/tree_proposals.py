@@ -92,7 +92,7 @@ def reversible_recom(partition, pop_col, pop_target, epsilon,
     random_pair = random.choice(dist_pairs)
     pair_edges = dist_pair_edges(partition, *random_pair)
     if random_pair[0] == random_pair[1] or not pair_edges:
-        return partition    # self-loop: no adjacency
+        return partition.flip({})    # self-loop: no adjacency
 
     edge = random.choice(list(pair_edges))
     parts_to_merge = (partition.assignment[edge[0]], partition.assignment[edge[1]])
@@ -107,7 +107,7 @@ def reversible_recom(partition, pop_col, pop_target, epsilon,
         epsilon=epsilon
     )
     if not all_cuts:
-        return partition    # self-loop: no balance edge
+        return partition.flip({})    # self-loop: no balance edge
 
     nodes = choice(all_cuts).subset
     remaining_nodes = set(subgraph.nodes()) - set(nodes)
@@ -126,7 +126,7 @@ def reversible_recom(partition, pop_col, pop_target, epsilon,
     if random.random() < prob:
         return new_part
 
-    return partition     # self-loop
+    return partition.flip({})     # self-loop
 
 
 class ReCom:
